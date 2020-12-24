@@ -51,7 +51,7 @@
 
 #### 调用钩子函数 `created()`
 
-#### 挂载根 DOM 元素 `$el` 到 `vm` 上
+#### 挂载根 `DOM` 元素 `$el` 到 `vm` 上
 
 ## 状态混入
 
@@ -75,15 +75,15 @@
 
 ## 生命周期混入
 
-### 为 Vue 添加 `_update` 方法（调用钩子函数 `updated()`）
+### 为 `Vue` 添加 `_update` 方法（调用钩子函数 `updated()`）
 
 比较之前的 `DOM` 元素和现在的 `DOM` 元素，打补丁（ `_patch_()` ）
 
-### 为 Vue 添加 `$forceUpdate` 方法
+### 为 `Vue` 添加 `$forceUpdate` 方法
 
 让 `Vue` 实例的监听器更新
 
-### 为 Vue 添加 `$destroy` 方法（调用钩子函数 `beforeDestroy()`）
+### 为 `Vue` 添加 `$destroy` 方法（调用钩子函数 `beforeDestroy()`）
 
 +   调用钩子函数 `beforeDestroy()`
 +   将自己从 `$parent` 移除
@@ -95,13 +95,20 @@
 
 ## 渲染混入
 
-+   为 `Vue` 添加运行时的帮助参数
-+   为 `Vue` 添加 `$nextTick` 方法
-    +   将回调函数加入微任务队列
-+   为 `Vue` 添加 `_render` 方法
-    +   初始化 `$scopedSlots`
-    +   调用 `render()` 函数，传入 `vm.$createElement`
-    +   设置 `parent`
+### 为 `Vue` 添加运行时的帮助参数
+
+### 为 `Vue` 添加 `$nextTick` 方法
+
++   将回调函数加入微任务队列
+
+### 为 `Vue` 添加 `_render` 方法
+
++   初始化 `$scopedSlots`
++   调用 `render()` 函数，传入 `vm.$createElement`
++   设置 `parent`
 
 ## 初始化全局 `API`
 
+为 `Vue` 添加 `config` 属性
+
+暴露 'util' 方法
