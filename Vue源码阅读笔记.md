@@ -1,8 +1,10 @@
 # Vue 源码阅读
 
-## 初始化混入
+## 初始化过程
 
-### 定义 `Vue` 的`_init_`方法：
+### 1 初始化混入
+
+#### 定义 `Vue` 的`_init_`方法：
 
 #### 初始化 `vm.$options`
 
@@ -53,37 +55,37 @@
 
 #### 挂载根 `DOM` 元素 `$el` 到 `vm` 上
 
-## 状态混入
+### 2 状态混入
 
 由于 `flow` 在直接用 `Object.defineProperty` 声明定义对象时会有问题，因此要在这里构建对象
 
-### 为 `Vue` 添加 `$data` 和 `$props` 属性
+#### 为 `vm` 添加 `$data` 和 `$props` 属性
 
 +   定义 `data `和 `props` 的 `get()` 方法
 
 +   用 `Object.defineProperty()` 将 `data` 和 `props` 属性和属性描述符添加到 `Vue` 原型
 
-### 为 `Vue` 添加 `$set` 和 `$delete` 属性
+#### 为 `vm` 添加 `$set` 和 `$delete` 属性
 
-### 为 `Vue` 添加 `$watch` 方法
+#### 为 `vm` 添加 `$watch` 方法
 
 返回值为取消监听（ unwatch ）函数
 
-## 事件混入
+### 3 事件混入
 
-### 为 `Vue` 添加 `$on` 方法
+#### 为 `vm` 添加 `$on` 方法
 
-## 生命周期混入
+### 4 生命周期混入
 
-### 为 `Vue` 添加 `_update` 方法（调用钩子函数 `updated()`）
+#### 为 `vm` 添加 `_update` 方法（调用钩子函数 `updated()`）
 
 比较之前的 `DOM` 元素和现在的 `DOM` 元素，打补丁（ `_patch_()` ）
 
-### 为 `Vue` 添加 `$forceUpdate` 方法
+#### 为 `vm` 添加 `$forceUpdate` 方法
 
 让 `Vue` 实例的监听器更新
 
-### 为 `Vue` 添加 `$destroy` 方法（调用钩子函数 `beforeDestroy()`）
+#### 为 `vm` 添加 `$destroy` 方法（调用钩子函数 `beforeDestroy()`）
 
 +   调用钩子函数 `beforeDestroy()`
 +   将自己从 `$parent` 移除
@@ -93,22 +95,50 @@
 +   调用钩子函数 `destroyed()`
 +   调用 `$off()` 函数，移除自定义事件监听器
 
-## 渲染混入
+### 5 渲染混入
 
-### 为 `Vue` 添加运行时的帮助参数
+#### 为 `Vue` 添加运行时的帮助参数
 
-### 为 `Vue` 添加 `$nextTick` 方法
+#### 为 `vm` 添加 `$nextTick` 方法
 
 +   将回调函数加入微任务队列
 
-### 为 `Vue` 添加 `_render` 方法
+#### 为 `vm` 添加 `_render` 方法
 
 +   初始化 `$scopedSlots`
 +   调用 `render()` 函数，传入 `vm.$createElement`
 +   设置 `parent`
 
-## 初始化全局 `API`
+### 6 初始化全局 `API`
 
-为 `Vue` 添加 `config` 属性
++   `Vue.config` ，只有（`get`）方法
 
-暴露 'util' 方法
++   暴露 'util' 方法（不是全局 `API` ）
++   `Vue.set`（通知依赖收集器）
++   `Vue.delete`（通知依赖收集器）
++   `Vue.nextTick` 
++   `Vue.observable`
++   `Vue.options`
++   `Vue.use`
++   `Vue.mixin`
++   `Vue.extend` (使用基础 Vue 构造器，创建一个“子类”)(继承)
++   注册 `component` 、`assets` 、`filter` 方法
++   `vm.$isServer` 当前实例是否运行于服务器
+
+
+
+## 要点
+
+### 1 响应式原理
+
+Vue 的双向绑定原理主要是利用 `Object.defineProperty()` 结合发布/订阅模式实现的。
+
+发布/订阅模式定义了对象的一对多关系，当某个对象的状态发生变化时，所有依赖于他的对象都将获得通知。
+
+Vue 采用 `Object.defineProperty()` 来拦截对象的读写操作，将对象封装为可观察的对象，通过 `get() `进行依赖收集，通过 `set()` 对相关对象进行通知。Dep 是收集依赖的容器，将数据的变化广播给订阅对象，订阅对象从而执行相应的更新。
+
+### 2 虚拟DOM
+
++   创建 vode，用 js 来表示 DOM 结构
++   根据虚拟 DOM 树构建出实际 DOM 树
++   通过虚拟 DOM 计算出实际 DOM 需要做的最小变动（ `updateChildren()` （diff 算法的核心））
