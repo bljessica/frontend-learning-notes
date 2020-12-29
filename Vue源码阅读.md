@@ -139,7 +139,7 @@ Vue 采用 `Object.defineProperty()` 来拦截对象的读写操作，将对象�
 
 ### 2 虚拟DOM
 
-过程：
+视图更新过程：
 
 +   创建 vnode（vnode 分为四类：组件类型、标签元素类型、注释类型、文本类型），用 js 来表示 DOM 结构
 +   根据虚拟 DOM 树构建出实际 DOM 树
