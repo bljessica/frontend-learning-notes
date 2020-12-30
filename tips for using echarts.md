@@ -1,4 +1,4 @@
-# echarts使用tip
+# tips for using echarts
 
 ## 背景
 
