@@ -23,6 +23,7 @@
 ### DONE
 + Vue2 源码
 + Promises/A+ 规范
++ 让动画变得更简单之FLIP技术
 
 ### TODO
 + Vue3 源码
